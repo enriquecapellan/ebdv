@@ -6,13 +6,14 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  ThemeProvider,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import QRCode from "react-qr-code";
+import CssBaseline from "@mui/material/CssBaseline";
 
 import BoyIcon from "@mui/icons-material/Boy";
 import AgeIcon from "@mui/icons-material/Numbers";
@@ -23,11 +24,9 @@ import Woman from "@mui/icons-material/Woman";
 
 import { IChild } from "../types/models";
 import { fetchChild } from "../services/db/children";
-import { getFileUrl } from "../services/storage";
 
 export const ChildDetails = () => {
   const [child, setChild] = useState<IChild | null>(null);
-  const [childPhoto, setChildPhoto] = useState<string>();
   const [loading, setLoading] = useState(true);
   const { id } = useParams<{ id: string }>();
 
@@ -41,26 +40,16 @@ export const ChildDetails = () => {
     getChild();
   }, [id]);
 
-  useEffect(() => {
-    async function getChildPhoto() {
-      if (!child) return;
-      const photoUrl = await getFileUrl(`children/${child.id}.jpg`);
-      setChildPhoto(photoUrl);
-    }
-    getChildPhoto();
-  }, [child]);
-
   if (loading) return <CircularProgress />;
   if (!child) return <div>El id del niño no existe.</div>;
 
   return (
     <Card>
-      <CardMedia sx={{ height: 300 }} image={childPhoto} title={child.name} />
+      <CardMedia sx={{ height: 300 }} image={child.photo} title={child.name} />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {child.name}
         </Typography>
-        <QRCode value={`http://10.0.0.5:5173/qr/children/${child.id}`} />
         <Grid item xs={12} md={6}>
           <List>
             <Item
@@ -108,3 +97,12 @@ const Item = ({ title, subTitle, icon }: ItemProps) => (
     <ListItemText primary={title} secondary={subTitle} />
   </ListItem>
 );
+
+export const QRChildDetails = () => {
+  return (
+    <>
+      <CssBaseline />
+      <ChildDetails />
+    </>
+  );
+};

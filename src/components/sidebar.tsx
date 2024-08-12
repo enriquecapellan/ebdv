@@ -28,7 +28,7 @@ export const Sidebar = () => {
             <Item path="/" icon={<HomeIcon />} text="Home" selected />
             <Item path="/groups" icon={<GroupIcon />} text="Grupos" />
             <Item path="/children" icon={<BoyIcon />} text="Niños" />
-            <Item path="/test" icon={<BoyIcon />} text="Niños" />
+            {/* <Item path="/agents" icon={<BoyIcon />} text="Cardnets" /> */}
           </List>
         </Box>
       </Drawer>

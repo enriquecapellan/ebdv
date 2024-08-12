@@ -3,7 +3,7 @@ import { appContext } from "./AppContext";
 import { IChild, IGroup } from "../../types/models";
 import { createChild, fetchChildren } from "../../services/db/children";
 import { createGroup, fetchGroups } from "../../services/db/groups";
-import { uploadFile } from "../../services/storage";
+import { fileToBase64 } from "../../utils";
 
 export function useApp() {
   const context = useContext(appContext);
@@ -27,10 +27,10 @@ export function useApp() {
     setChildrenLoading(false);
   }
 
-  async function addChild(child: IChild, image: File) {
+  async function addChild(child: IChild, photoFile: File) {
     setChildrenLoading(true);
-    const id = await createChild(child);
-    await uploadFile(image, `children/${id}.jpg`);
+    child.photo = await fileToBase64(photoFile);
+    await createChild(child);
     loadChildren();
   }
 

@@ -11,5 +11,6 @@ export interface IChild {
   group: IGroup;
   name: string;
   age: number;
+  photo: string;
   sex: "male" | "female";
 }

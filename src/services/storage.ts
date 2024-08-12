@@ -1,6 +1,5 @@
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-
-const storage = getStorage();
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from "./firebase";
 
 export async function uploadFile(file: File, fileName: string): Promise<void> {
   const storageRef = ref(storage, fileName);

@@ -5,7 +5,7 @@ import { Agents } from "./views/agents";
 import { Groups } from "./views/groups";
 import App from "./App";
 import { Children } from "./views/children";
-import { ChildDetails } from "./views/child";
+import { ChildDetails, QRChildDetails } from "./views/child";
 import { Test } from "./views/test";
 
 export const router = createBrowserRouter([
@@ -23,6 +23,6 @@ export const router = createBrowserRouter([
   },
   {
     path: "/qr/children/:id",
-    element: createElement(ChildDetails),
+    element: createElement(QRChildDetails),
   },
 ]);
