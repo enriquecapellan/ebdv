@@ -1,0 +1,13 @@
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.card {
+  display: flex;
+  width: 226px;
+  height: 340px;
+  background-color: red;
+}
