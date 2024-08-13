@@ -6,7 +6,6 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  ThemeProvider,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 import Card from "@mui/material/Card";
