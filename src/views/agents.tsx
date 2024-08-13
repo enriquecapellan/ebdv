@@ -32,16 +32,12 @@ export const Agents = () => {
 
       <div ref={cards}>
         <Wrapper>
-          {state.children.flatMap((child) =>
-            new Array(90)
-              .fill(null)
-              .map((_, index) => (
-                <Cardnet
-                  key={`${child.id}${index}`}
-                  imageIndex={index % 4}
-                  child={child}
-                />
-              ))
+          {state.children.map((child) =>
+            <Cardnet
+              key={child.id}
+              imageIndex={1}
+              child={child}
+            />
           )}
         </Wrapper>
       </div>
