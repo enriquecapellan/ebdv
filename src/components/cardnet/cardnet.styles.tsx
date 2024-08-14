@@ -4,8 +4,9 @@ import Mateo from "../../assets/img/carnets/Mateo.png";
 import Marcos from "../../assets/img/carnets/Marcos.png";
 import Lucas from "../../assets/img/carnets/Lucas.png";
 import Juan from "../../assets/img/carnets/Juan.png";
+import special from '../../assets/img/carnets/special.png'
 
-const images = { Mateo, Marcos, Lucas, Juan };
+const images = { Mateo, Marcos, Lucas, Juan, special };
 
 const getImage = (key: string) => {
   return images[(key.trim()) as keyof typeof images]

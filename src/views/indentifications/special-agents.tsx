@@ -1,14 +1,16 @@
 import { useEffect, useRef } from "react";
-// import styled from "styled-components";
+import styled from "styled-components";
 import html2PDF from "jspdf-html2canvas";
 import PrintIcon from "@mui/icons-material/Print";
 import { Box, Button } from "@mui/material";
 
 import { useApp } from "../../hooks/useApp/useApp";
 import { Filters } from "../../components/filters";
+import { SpecialCardnet } from "../../components/cardnet";
 
 export const SpecialAgentsIdentifications = () => {
-  const { actions } = useApp();
+  const { actions, state } = useApp();
+  const { specialAgents } = state;
   const cards = useRef<HTMLDivElement>(null);
 
   function print() {
@@ -36,23 +38,23 @@ export const SpecialAgentsIdentifications = () => {
         </Button>
       </Box>
 
-      {/* <div ref={cards}>
+      <div ref={cards}>
         <Wrapper>
-          {state.specialAgents.map((group) => (
-            <GropCards key={group.id} group={group} />
+          {specialAgents.map((agent) => (
+            <SpecialCardnet key={agent.id} agent={agent} />
           ))}
         </Wrapper>
-      </div> */}
+      </div>
     </>
   );
 };
 
-// const Wrapper = styled.div`
-//   display: flex;
-//   flex-wrap: wrap;
-//   column-gap: 0.9cm;
-//   row-gap: 0.82cm;
-//   padding: 0.14cm 0.6cm;
-//   background-color: white;
-//   width: 21cm;
-// `;
+const Wrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.9cm;
+  row-gap: 0.82cm;
+  padding: 0.14cm 0.6cm;
+  background-color: white;
+  width: 21cm;
+`;

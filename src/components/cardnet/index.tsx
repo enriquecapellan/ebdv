@@ -182,7 +182,57 @@ type SpecialCardProps = {
 };
 
 export const SpecialCardnet = ({ agent }: SpecialCardProps) => {
-  console.log(agent);
+  const [photo, setPhoto] = useState("");
+
+  useEffect(() => {
+    async function getPhotos() {
+      const photo = (await getImage(`special-agents.${agent.id}.jpg`)) || "";
+      setPhoto(photo);
+    }
+    getPhotos();
+  }, [agent.id]);
+
+  return (
+    <Card agent="special">
+      <Box display="flex">
+        <img src={photo} alt={agent.name} />
+        <Box>
+          <QRCode
+            style={{ marginTop: "0.82cm" }}
+            height="3.18cm"
+            width="3cm"
+            value={`${window.location.protocol}/${window.location.host}/qr/agents/${agent.id}`}
+          />
+        </Box>
+      </Box>
+      <Box marginLeft="2.4cm" marginTop={1}>
+        <Typography lineHeight={1} fontSize={12}>
+          NOMBRE
+        </Typography>
+        <Typography
+          marginBottom={1}
+          lineHeight={1}
+          fontWeight="bold"
+          fontSize={12}
+        >
+          {agent.name.toUpperCase()}
+        </Typography>
+      </Box>
+      <Box marginLeft="2.4cm" marginTop={1}>
+        <Typography lineHeight={1} fontSize={12}>
+          CARGO
+        </Typography>
+        <Typography
+          marginBottom={1}
+          lineHeight={1}
+          fontWeight="bold"
+          fontSize={12}
+        >
+          {agent.position.toUpperCase()}
+        </Typography>
+      </Box>
+    </Card>
+  );
 };
 
 type LeaderCardProps = {
