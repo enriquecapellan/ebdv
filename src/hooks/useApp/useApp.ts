@@ -1,7 +1,11 @@
 import { useContext } from "react";
 import { appContext } from "./AppContext";
 import { IChild, IGroup, IFilters, ILeader } from "../../types/models";
-import { createChild, fetchChildren } from "../../services/db/children";
+import {
+  createChild,
+  fetchChildren,
+  updateChild,
+} from "../../services/db/children";
 import {
   createGroup,
   fetchGroups,
@@ -43,8 +47,20 @@ export function useApp() {
     loadChildren();
   }
 
+  async function editChild(child: IChild, photo: File | null) {
+    setGroupsLoading(true);
+    if (photo) updloadImage(photo, `children.${child.id}.jpg`);
+    updateChild(child.id || "", child);
+
+    loadChildren();
+  }
+
   function setChildren(children: IChild[] = []) {
     dispatch({ type: "SET_CHILDREN", payload: children });
+  }
+
+  function setActiveChild(child: IChild | null) {
+    dispatch({ type: "SET_ACTIVE_CHILD", payload: child });
   }
 
   function setChildrenLoading(isLoading: boolean) {
@@ -134,6 +150,8 @@ export function useApp() {
       addChild,
       loadChildren,
       setChildren,
+      editChild,
+      setActiveChild,
       setChildrenLoading,
       loadGroups,
       editGroup,

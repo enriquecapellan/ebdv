@@ -8,9 +8,10 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Link, useParams } from "react-router-dom";
 import TrashIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
 import { useApp } from "../../hooks/useApp/useApp";
-import { IconButton } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import { deleteChild } from "../../services/db/children";
 import { Confirm } from "../confirm";
 
@@ -72,12 +73,20 @@ export const ChildrenTable = () => {
                 <TableCell>{row.group.agent}</TableCell>
                 <TableCell>{row.group.leader}</TableCell>
                 <TableCell>
-                  <IconButton
-                    size="small"
-                    onClick={() => setDeleteChildId(row.id || "")}
-                  >
-                    <TrashIcon />
-                  </IconButton>
+                  <Box display="flex">
+                    <IconButton
+                      size="small"
+                      onClick={() => actions.setActiveChild(row)}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton
+                      size="small"
+                      onClick={() => setDeleteChildId(row.id || "")}
+                    >
+                      <TrashIcon />
+                    </IconButton>
+                  </Box>
                 </TableCell>
               </TableRow>
             ))}

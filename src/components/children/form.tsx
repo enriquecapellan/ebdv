@@ -17,22 +17,45 @@ import { useApp } from "../../hooks/useApp/useApp";
 export function ChildrenFrom() {
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState<File | null>(null);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    actions.setActiveChild(null);
+    setOpen(false);
+  };
   const { state, actions } = useApp();
 
   const form = useForm<IChild>();
   const { handleSubmit } = form;
 
-  async function handleAddChild(child: IChild) {
+  async function addOrEditChild(child: IChild) {
     const group = state.groups.find(
       (g) => `${g.leader} - ${g.agent}` === ((child.group as unknown) as string)
     );
-    if (!image || !group) return;
 
+    if (!group) return;
     const data = { ...child, group };
-    await actions.addChild(data, image);
+
+    if (state.activeChild) {
+      await actions.editChild(data, image);
+    } else {
+      if (!image) return;
+      await actions.addChild(data, image);
+    }
+
     handleClose();
   }
+
+  useEffect(() => {
+    setOpen(!!state.activeChild?.id);
+    if (state.activeChild) {
+      form.reset({
+        ...state.activeChild,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        group: `${state.activeChild.group.leader} - ${state.activeChild.group.agent}`,
+      });
+      setImage(null);
+    }
+  }, [state.activeChild?.id]);
 
   useEffect(() => {
     actions.loadGroups();
@@ -53,7 +76,7 @@ export function ChildrenFrom() {
         onClose={handleClose}
         PaperProps={{
           component: "form",
-          onSubmit: handleSubmit(handleAddChild),
+          onSubmit: handleSubmit(addOrEditChild),
         }}
       >
         <DialogTitle>Agregar Niño</DialogTitle>
@@ -73,7 +96,7 @@ export function ChildrenFrom() {
             form={form}
           />
           <MuiFileInput
-            required
+            required={!state.activeChild}
             value={image}
             onChange={setImage}
             style={{ marginTop: "2rem" }}
