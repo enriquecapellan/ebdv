@@ -31,7 +31,6 @@ export const LeadersTable = () => {
           <TableRow>
             <TableCell>Nombre</TableCell>
             <TableCell>Agente</TableCell>
-            <TableCell>Llamado</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

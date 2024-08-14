@@ -1,4 +1,12 @@
-import { addDoc, getDocs, collection, getDoc, doc, deleteDoc } from "firebase/firestore";
+import {
+  addDoc,
+  getDocs,
+  collection,
+  getDoc,
+  doc,
+  deleteDoc,
+  updateDoc,
+} from "firebase/firestore";
 
 import { IGroup } from "../../types/models";
 import { db } from "../firebase";
@@ -27,12 +35,16 @@ export async function fetchGroup(id: string) {
 
   if (group) {
     group.leaderPhoto = (await getImage(`groups.${id}.leader.jpg`)) || "";
-    group.assistantPhoto = (await getImage("groups.${id}.assistant.jpg")) || "";
+    group.assistantPhoto = (await getImage(`groups.${id}.assistant.jpg`)) || "";
   }
 
   return group;
 }
 
-export async function deleteGroup(id: string) { 
+export async function updateGroup(id: string, updatedGroup: IGroup) {
+  await updateDoc(doc(groupsCollection, id), { ...updatedGroup });
+}
+
+export async function deleteGroup(id: string) {
   await deleteDoc(doc(groupsCollection, id));
 }

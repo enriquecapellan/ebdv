@@ -2,7 +2,11 @@ import { useContext } from "react";
 import { appContext } from "./AppContext";
 import { IChild, IGroup, IFilters, ILeader } from "../../types/models";
 import { createChild, fetchChildren } from "../../services/db/children";
-import { createGroup, fetchGroups } from "../../services/db/groups";
+import {
+  createGroup,
+  fetchGroups,
+  updateGroup,
+} from "../../services/db/groups";
 import { updloadImage } from "../../services/db/images";
 import { createLeader, fetchLeaders } from "../../services/db/leaders";
 
@@ -69,6 +73,20 @@ export function useApp() {
     loadGroups();
   }
 
+  async function editGroup(
+    group: IGroup,
+    leaderPhoto: File | null,
+    assistantPhoto: File | null
+  ) {
+    setGroupsLoading(true);
+    if (leaderPhoto) updloadImage(leaderPhoto, `groups.${group.id}.leader.jpg`);
+    if (assistantPhoto)
+      updloadImage(assistantPhoto, `groups.${group.id}.assistant.jpg`);
+    updateGroup(group.id || "", group);
+
+    loadGroups();
+  }
+
   function setGroups(groups: IGroup[] = []) {
     dispatch({ type: "SET_GROUPS", payload: groups });
   }
@@ -101,7 +119,7 @@ export function useApp() {
     dispatch({ type: "SET_LEADERS", payload: leaders });
   }
 
-  function setActiveLeader(leader: ILeader | null) { 
+  function setActiveLeader(leader: ILeader | null) {
     dispatch({ type: "SET_ACTIVE_LEADER", payload: leader });
   }
 
@@ -118,6 +136,7 @@ export function useApp() {
       setChildren,
       setChildrenLoading,
       loadGroups,
+      editGroup,
       addGroup,
       setGroups,
       setActiveGroup,

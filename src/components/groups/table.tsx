@@ -12,7 +12,7 @@ import EditIcon from "@mui/icons-material/Edit";
 
 import { useApp } from "../../hooks/useApp/useApp";
 import { deleteGroup } from "../../services/db/groups";
-import { IconButton } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import { Confirm } from "../confirm";
 
 export const GroupsTable = () => {
@@ -73,18 +73,20 @@ export const GroupsTable = () => {
                 <TableCell>{row.calling}</TableCell>
                 <TableCell>{row.assistant || "---"}</TableCell>
                 <TableCell>
-                  {/* <IconButton
-                    size="small"
-                    onClick={() => actions.setActiveGroup(row)}
-                  >
-                    <EditIcon />
-                  </IconButton> */}
-                  <IconButton
-                    size="small"
-                    onClick={() => setDeleteGroupId(row.id || "")}
-                  >
-                    <TrashIcon />
-                  </IconButton>
+                  <Box display="flex" justifyContent="space-between">
+                    <IconButton
+                      size="small"
+                      onClick={() => actions.setActiveGroup(row)}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton
+                      size="small"
+                      onClick={() => setDeleteGroupId(row.id || "")}
+                    >
+                      <TrashIcon />
+                    </IconButton>
+                  </Box>
                 </TableCell>
               </TableRow>
             ))}

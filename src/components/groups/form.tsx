@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
@@ -20,7 +20,7 @@ export function GroupFrom() {
   const [assistantPhoto, setAssistantPhoto] = useState<File | null>(null);
   const [open, setOpen] = useState(false);
   const { state, actions } = useApp();
-  
+
   const handleClose = () => {
     actions.setActiveGroup(null);
     setOpen(false);
@@ -29,23 +29,37 @@ export function GroupFrom() {
   const form = useForm<IGroup>();
   const { handleSubmit } = form;
 
-  async function handleAddGroup(data: IGroup) {
-    if (!leaderPhoto) return;
-    await actions.addGroup(data, leaderPhoto, assistantPhoto);
+  async function addOrEditGroup(data: IGroup) {
+    if (state.activeGroup) {
+      await actions.editGroup(data, leaderPhoto, assistantPhoto);
+    } else {
+      if (!leaderPhoto) return;
+      await actions.addGroup(data, leaderPhoto, assistantPhoto);
+    }
+
     handleClose();
   }
+
+  useEffect(() => {
+    setOpen(!!state.activeGroup?.id);
+    if (state.activeGroup) {
+      form.reset(state.activeGroup);
+      setLeaderPhoto(null);
+      setAssistantPhoto(null);
+    }
+  }, [state.activeGroup?.id]);
 
   return (
     <Wrapper>
       <Button size="small" variant="contained" onClick={() => setOpen(true)}>
-        Agregar Grupo
+        {state.activeGroup ? "Editar" : "Agregar"} Grupo
       </Button>
       <Dialog
         open={open}
         onClose={handleClose}
         PaperProps={{
           component: "form",
-          onSubmit: handleSubmit(handleAddGroup),
+          onSubmit: handleSubmit(addOrEditGroup),
         }}
       >
         <DialogTitle>Agregar Grupo</DialogTitle>
@@ -65,7 +79,7 @@ export function GroupFrom() {
           <Input id="leader" label="Maestra" form={form} />
           <Input id="assistant" label="Ayudante" form={form} required={false} />
           <MuiFileInput
-            required
+            required={!state.activeGroup}
             value={leaderPhoto}
             onChange={setLeaderPhoto}
             style={{ marginTop: "2rem" }}
