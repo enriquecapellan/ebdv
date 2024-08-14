@@ -46,17 +46,15 @@ export const DropdownInput = ({
       options={options}
       sx={{ width: 300 }}
       value={form.getValues(id)}
-      renderInput={(params) => {
-        return (
-          <TextField
-            required={required}
-            variant="standard"
-            label={label}
-            {...params}
-            {...form.register(id)}
-          />
-        );
-      }}
+      renderInput={(params) => (
+        <TextField
+          required={required}
+          variant="standard"
+          label={label}
+          {...params}
+          {...form.register(id)}
+        />
+      )}
     />
   );
 };

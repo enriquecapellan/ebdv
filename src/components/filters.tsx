@@ -3,14 +3,18 @@ import { DropdownInput } from "./input";
 import { AGENTS, CALLINGS } from "../constants";
 import { Box, Button, Drawer } from "@mui/material";
 import FilterIcon from "@mui/icons-material/FilterAlt";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useApp } from "../hooks/useApp/useApp";
 import { IFilters } from "../types/models";
 
 export const Filters = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { actions, state } = useApp();
-  const form = useForm<IFilters>({ defaultValues: state.filters });
+  const form = useForm<IFilters>();
+
+  useEffect(() => {
+    form.reset(state.filters);
+  }, [state.filters]);
 
   function handleClose() {
     form.handleSubmit(actions.setFilters)();
