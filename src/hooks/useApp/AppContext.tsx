@@ -26,6 +26,11 @@ const initialState: AppState = {
   children: [],
   isChildrenLoading: false,
   activeChild: null,
+
+  // special agents
+  specialAgents: [],
+  isSpecialAgentsLoading: false,
+  activeSpecialAgent: null,
 };
 
 export const AppProvider = ({ children }: AppProviderProps) => {

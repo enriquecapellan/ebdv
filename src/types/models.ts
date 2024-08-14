@@ -28,3 +28,11 @@ export interface IChild {
   age: number;
   sex: "male" | "female";
 }
+
+
+export interface ISpecialAgent {
+  id?: string;
+  name: string;
+  position: string;
+  photo?: string;
+}

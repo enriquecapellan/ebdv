@@ -1,6 +1,12 @@
 import { useContext } from "react";
 import { appContext } from "./AppContext";
-import { IChild, IGroup, IFilters, ILeader } from "../../types/models";
+import {
+  IChild,
+  IGroup,
+  IFilters,
+  ILeader,
+  ISpecialAgent,
+} from "../../types/models";
 import {
   createChild,
   fetchChildren,
@@ -13,6 +19,11 @@ import {
 } from "../../services/db/groups";
 import { updloadImage } from "../../services/db/images";
 import { createLeader, fetchLeaders } from "../../services/db/leaders";
+import {
+  createSpecialAgent,
+  fetchSpecialAgents,
+  updateSpecialAgent,
+} from "../../services/db/special-agents";
 
 export function useApp() {
   const context = useContext(appContext);
@@ -65,6 +76,41 @@ export function useApp() {
 
   function setChildrenLoading(isLoading: boolean) {
     dispatch({ type: "SET_CHILDREN_LOADING", payload: isLoading });
+  }
+
+  // special agents actions
+  async function loadSpecialAgents() {
+    setSpecialAgentsLoading(true);
+    const specialAgents = await fetchSpecialAgents();
+    setSpecialAgents(specialAgents);
+    setSpecialAgentsLoading(false);
+  }
+
+  async function addSpecialAgent(specialAgent: ISpecialAgent, photoFile: File) {
+    setSpecialAgentsLoading(true);
+    const id = await createSpecialAgent(specialAgent);
+    updloadImage(photoFile, `special-agents.${id}.jpg`);
+    loadSpecialAgents();
+  }
+
+  async function editSpecialAgent(specialAgent: ISpecialAgent, photo: File | null) {
+    setGroupsLoading(true);
+    if (photo) updloadImage(photo, `special-agents.${specialAgent.id}.jpg`);
+    updateSpecialAgent(specialAgent.id || "", specialAgent);
+
+    loadSpecialAgents();
+  }
+
+  function setSpecialAgents(specialAgents: ISpecialAgent[] = []) {
+    dispatch({ type: "SET_SPECIAL_AGENTS", payload: specialAgents });
+  }
+
+  function setActiveSpecialAgent(specialAgent: ISpecialAgent | null) {
+    dispatch({ type: "SET_ACTIVE_SPECIAL_AGENT", payload: specialAgent });
+  }
+
+  function setSpecialAgentsLoading(isLoading: boolean) {
+    dispatch({ type: "SET_SPECIAL_AGENTS_LOADING", payload: isLoading });
   }
 
   // groups actions
@@ -153,6 +199,7 @@ export function useApp() {
       editChild,
       setActiveChild,
       setChildrenLoading,
+
       loadGroups,
       editGroup,
       addGroup,
@@ -160,11 +207,20 @@ export function useApp() {
       setActiveGroup,
       setFilters,
       setGroupsLoading,
+      
       addLeader,
       loadLeaders,
       setLeaders,
       setActiveLeader,
       setLeadersLoading,
+      
+      addSpecialAgent,
+      loadSpecialAgents,
+      editSpecialAgent,
+      setSpecialAgents,
+      setActiveSpecialAgent,
+      setSpecialAgentsLoading,
+
     },
   };
 }

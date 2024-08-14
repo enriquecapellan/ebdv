@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
@@ -9,53 +9,63 @@ import DialogTitle from "@mui/material/DialogTitle";
 import CloseIcon from "@mui/icons-material/Close";
 import { MuiFileInput } from "mui-file-input";
 
-import { DropdownInput, Input } from "../input";
-import { ILeader } from "../../types/models";
+import { Input } from "../input";
+import { ISpecialAgent } from "../../types/models";
 import { useApp } from "../../hooks/useApp/useApp";
 
-import { AGENTS } from "../../constants";
-
-export function LeaderFrom() {
-  const [leaderPhoto, setLeaderPhoto] = useState<File | null>(null);
+export function SpecialAgentFrom() {
+  const [photo, setPhoto] = useState<File | null>(null);
   const [open, setOpen] = useState(false);
-  const handleClose = () => setOpen(false);
   const { state, actions } = useApp();
 
-  const form = useForm<ILeader>();
+  const handleClose = () => {
+    actions.setActiveSpecialAgent(null);
+    setOpen(false);
+  };
+
+  const form = useForm<ISpecialAgent>();
   const { handleSubmit } = form;
 
-  async function handleAddLeader(data: ILeader) {
-    if (!leaderPhoto) return;
-    await actions.addLeader(data, leaderPhoto);
+  async function addOrEditSpecialAgent(data: ISpecialAgent) {
+    if (state.activeSpecialAgent) {
+      await actions.editSpecialAgent(data, photo);
+    } else {
+      if (!photo) return;
+      await actions.addSpecialAgent(data, photo);
+    }
+
     handleClose();
   }
+
+  useEffect(() => {
+    setOpen(!!state.activeSpecialAgent?.id);
+    if (state.activeSpecialAgent) {
+      form.reset(state.activeSpecialAgent);
+      setPhoto(null);
+    }
+  }, [state.activeSpecialAgent?.id]);
 
   return (
     <Wrapper>
       <Button size="small" variant="contained" onClick={() => setOpen(true)}>
-        Agregar Líder
+        Agregar Agente Especial
       </Button>
       <Dialog
         open={open}
         onClose={handleClose}
         PaperProps={{
           component: "form",
-          onSubmit: handleSubmit(handleAddLeader),
+          onSubmit: handleSubmit(addOrEditSpecialAgent),
         }}
       >
-        <DialogTitle>Agregar Líder</DialogTitle>
+        <DialogTitle>Agregar Agente Especial</DialogTitle>
         <DialogContent>
-          <Input id="name" label="Nombre del líder" form={form} />
-          <DropdownInput
-            id="agent"
-            label="Agente"
-            form={form}
-            options={AGENTS}
-          />
+          <Input id="name" label="Nombre" form={form} />
+          <Input id="position" label="Rango" form={form} />
           <MuiFileInput
             required
-            value={leaderPhoto}
-            onChange={setLeaderPhoto}
+            value={photo}
+            onChange={setPhoto}
             style={{ marginTop: "2rem" }}
             label="Foto"
             inputProps={{ accept: ".png, .jpeg, .jpg" }}
@@ -69,7 +79,7 @@ export function LeaderFrom() {
           <Button color="secondary" onClick={handleClose}>
             Cancelar
           </Button>
-          <Button disabled={state.isLeadersLoading} type="submit">
+          <Button disabled={state.isSpecialAgentsLoading} type="submit">
             Enviar
           </Button>
         </DialogActions>

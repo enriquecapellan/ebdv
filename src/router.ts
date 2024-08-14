@@ -12,6 +12,7 @@ import { ScanQR } from "./views/scan";
 import { Unlock } from "./views/unlock";
 import { Leaders } from "./views/leadres";
 import { GroupsIdentifications } from "./views/groupsIdentifications";
+import { SpecialAgents } from "./views/special-agents";
 
 export const router = createBrowserRouter([
   {
@@ -19,6 +20,7 @@ export const router = createBrowserRouter([
     element: createElement(App),
     children: [
       { path: "/", element: createElement(Home) },
+      { path: "/special-agents", element: createElement(SpecialAgents) },
       { path: "/groups", element: createElement(Groups) },
       {
         path: "/groups/cardnets",

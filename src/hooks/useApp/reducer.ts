@@ -11,9 +11,9 @@ export function reducer(state: AppState, action: Action): AppState {
     case "SET_GROUPS":
       return { ...state, groups: action.payload };
     case "SET_ACTIVE_GROUP":
-      return {...state, activeGroup: action.payload };
+      return { ...state, activeGroup: action.payload };
     case "SET_ACTIVE_CHILD":
-      return {...state, activeChild: action.payload };
+      return { ...state, activeChild: action.payload };
     case "SET_FILTERS":
       return { ...state, filters: action.payload };
     case "SET_GROUPS_LOADING":
@@ -23,7 +23,14 @@ export function reducer(state: AppState, action: Action): AppState {
     case "SET_LEADERS_LOADING":
       return { ...state, isLeadersLoading: action.payload };
     case "SET_ACTIVE_LEADER":
-      return {...state, activeLeader: action.payload };
+      return { ...state, activeLeader: action.payload };
+    case "SET_SPECIAL_AGENTS":
+      return { ...state, specialAgents: action.payload };
+    case "SET_SPECIAL_AGENTS_LOADING":
+      return { ...state, isSpecialAgentsLoading: action.payload };
+    case "SET_ACTIVE_SPECIAL_AGENT":
+      return { ...state, activeSpecialAgent: action.payload };
+
     default:
       return state;
   }

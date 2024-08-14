@@ -1,4 +1,4 @@
-import { IChild, IGroup, IFilters, ILeader } from "../../types/models";
+import { IChild, IGroup, IFilters, ILeader, ISpecialAgent } from "../../types/models";
 
 export interface AppState {
   isSidebarOpen: boolean;
@@ -18,6 +18,11 @@ export interface AppState {
   children: IChild[];
   isChildrenLoading: boolean;
   activeChild: IChild | null;
+
+  // special agents
+  specialAgents: ISpecialAgent[];
+  isSpecialAgentsLoading: boolean;
+  activeSpecialAgent: ISpecialAgent | null;
 }
 
 export type AppContextType = [AppState, React.Dispatch<Action>];
@@ -33,18 +38,26 @@ type SetChildrenLoadingAction = {
   type: "SET_CHILDREN_LOADING";
   payload: boolean;
 };
-type SetActiveChildAction = { type: "SET_ACTIVE_CHILD"; payload: IChild | null };
+type SetActiveChildAction = {
+  type: "SET_ACTIVE_CHILD";
+  payload: IChild | null;
+};
 
 type SetGroupsAction = { type: "SET_GROUPS"; payload: IGroup[] };
 type SetGroupsLoadingAction = { type: "SET_GROUPS_LOADING"; payload: boolean };
-type setFiltersAction = {
-  type: "SET_FILTERS";
-  payload: IFilters;
-};
-
 type SetActiveGroupAction = {
   type: "SET_ACTIVE_GROUP";
   payload: IGroup | null;
+};
+
+type SetSpecialAgentsAction = { type: "SET_SPECIAL_AGENTS"; payload: ISpecialAgent[] };
+type SetSpecialAgentsLoadingAction = {
+  type: "SET_SPECIAL_AGENTS_LOADING";
+  payload: boolean;
+};
+type SetActiveSpecialAgentAction = {
+  type: "SET_ACTIVE_SPECIAL_AGENT";
+  payload: ISpecialAgent | null;
 };
 
 type SetLeadersAction = { type: "SET_LEADERS"; payload: ILeader[] };
@@ -55,6 +68,11 @@ type SetLeadersLoadingAction = {
 type SetActiveLeaderAction = {
   type: "SET_ACTIVE_LEADER";
   payload: ILeader | null;
+};
+
+type setFiltersAction = {
+  type: "SET_FILTERS";
+  payload: IFilters;
 };
 
 export type Action =
@@ -68,4 +86,7 @@ export type Action =
   | setFiltersAction
   | SetLeadersAction
   | SetLeadersLoadingAction
-  | SetActiveLeaderAction;
+  | SetActiveLeaderAction
+  | SetSpecialAgentsAction
+  | SetSpecialAgentsLoadingAction
+  | SetActiveSpecialAgentAction;
