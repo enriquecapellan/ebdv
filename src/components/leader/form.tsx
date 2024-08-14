@@ -13,7 +13,7 @@ import { DropdownInput, Input } from "../input";
 import { ILeader } from "../../types/models";
 import { useApp } from "../../hooks/useApp/useApp";
 
-import { AGENTS, CALLINGS } from "../../constants";
+import { AGENTS } from "../../constants";
 
 export function LeaderFrom() {
   const [leaderPhoto, setLeaderPhoto] = useState<File | null>(null);
@@ -51,12 +51,6 @@ export function LeaderFrom() {
             label="Agente"
             form={form}
             options={AGENTS}
-          />
-          <DropdownInput
-            id="calling"
-            label="Llamado"
-            form={form}
-            options={CALLINGS}
           />
           <MuiFileInput
             required

@@ -17,7 +17,6 @@ export interface ILeader {
   id?: string;
   name: string;
   agent: string;
-  calling: string;
   photo?: string;
 }
 

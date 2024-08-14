@@ -15,15 +15,17 @@ const initialState: AppState = {
   // leaders
   leaders: [],
   isLeadersLoading: false,
-
+  activeLeader: null,
 
   // groups
   groups: [],
   isGroupsLoading: false,
+  activeGroup: null,
 
   // children
   children: [],
   isChildrenLoading: false,
+  activeChild: null,
 };
 
 export const AppProvider = ({ children }: AppProviderProps) => {

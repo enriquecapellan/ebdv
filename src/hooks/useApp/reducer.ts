@@ -18,6 +18,8 @@ export function reducer(state: AppState, action: Action): AppState {
       return { ...state, leaders: action.payload };
     case "SET_LEADERS_LOADING":
       return { ...state, isLeadersLoading: action.payload };
+    case "SET_ACTIVE_LEADER":
+      return {...state, activeLeader: action.payload };
     default:
       return state;
   }

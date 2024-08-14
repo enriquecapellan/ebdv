@@ -19,8 +19,12 @@ export function GroupFrom() {
   const [leaderPhoto, setLeaderPhoto] = useState<File | null>(null);
   const [assistantPhoto, setAssistantPhoto] = useState<File | null>(null);
   const [open, setOpen] = useState(false);
-  const handleClose = () => setOpen(false);
   const { state, actions } = useApp();
+  
+  const handleClose = () => {
+    actions.setActiveGroup(null);
+    setOpen(false);
+  };
 
   const form = useForm<IGroup>();
   const { handleSubmit } = form;

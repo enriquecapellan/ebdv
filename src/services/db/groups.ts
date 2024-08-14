@@ -1,4 +1,4 @@
-import { addDoc, getDocs, collection, getDoc, doc } from "firebase/firestore";
+import { addDoc, getDocs, collection, getDoc, doc, deleteDoc } from "firebase/firestore";
 
 import { IGroup } from "../../types/models";
 import { db } from "../firebase";
@@ -31,4 +31,8 @@ export async function fetchGroup(id: string) {
   }
 
   return group;
+}
+
+export async function deleteGroup(id: string) { 
+  await deleteDoc(doc(groupsCollection, id));
 }

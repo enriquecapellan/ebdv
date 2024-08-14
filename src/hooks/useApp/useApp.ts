@@ -20,6 +20,10 @@ export function useApp() {
     dispatch({ type: "TOGGLE_SIDEBAR" });
   }
 
+  function setFilters(filters: IFilters) {
+    dispatch({ type: "SET_FILTERS", payload: filters });
+  }
+
   // children actions
   async function loadChildren(groupId?: string) {
     setChildrenLoading(true);
@@ -69,6 +73,15 @@ export function useApp() {
     dispatch({ type: "SET_GROUPS", payload: groups });
   }
 
+  function setActiveGroup(group: IGroup | null) {
+    dispatch({ type: "SET_ACTIVE_GROUP", payload: group });
+  }
+
+  function setGroupsLoading(isLoading: boolean) {
+    dispatch({ type: "SET_GROUPS_LOADING", payload: isLoading });
+  }
+
+  // leaders actions
   async function addLeader(leader: ILeader, photo: File) {
     setGroupsLoading(true);
     const id = await createLeader(leader);
@@ -88,16 +101,12 @@ export function useApp() {
     dispatch({ type: "SET_LEADERS", payload: leaders });
   }
 
+  function setActiveLeader(leader: ILeader | null) { 
+    dispatch({ type: "SET_ACTIVE_LEADER", payload: leader });
+  }
+
   function setLeadersLoading(isLoading: boolean) {
     dispatch({ type: "SET_LEADERS_LOADING", payload: isLoading });
-  }
-
-  function setFilters(filters: IFilters) {
-    dispatch({ type: "SET_FILTERS", payload: filters });
-  }
-
-  function setGroupsLoading(isLoading: boolean) {
-    dispatch({ type: "SET_GROUPS_LOADING", payload: isLoading });
   }
 
   return {
@@ -111,11 +120,13 @@ export function useApp() {
       loadGroups,
       addGroup,
       setGroups,
+      setActiveGroup,
       setFilters,
       setGroupsLoading,
       addLeader,
       loadLeaders,
       setLeaders,
+      setActiveLeader,
       setLeadersLoading,
     },
   };

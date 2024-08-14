@@ -16,9 +16,7 @@ export const LeadersTable = () => {
 
   const data = useMemo(() => {
     return leaders.filter(
-      (leader) =>
-        (!filters.agent || leader.agent === filters.agent) &&
-        (!filters.calling || leader.calling === filters.calling)
+      (leader) => !filters.agent || leader.agent === filters.agent
     );
   }, [leaders, filters]);
 
@@ -48,7 +46,6 @@ export const LeadersTable = () => {
                 </Link>
               </TableCell>
               <TableCell>{row.agent}</TableCell>
-              <TableCell>{row.calling}</TableCell>
             </TableRow>
           ))}
         </TableBody>
