@@ -51,7 +51,7 @@ export async function fetchChild(id: string) {
   return child;
 }
 
-export async function updateChild(id: string, child: IChild) {
+export async function updateChild({ id, ...child }: IChild) {
   await updateDoc(doc(childrenCollection, id), { ...child });
 }
 

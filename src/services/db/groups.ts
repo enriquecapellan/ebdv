@@ -41,7 +41,7 @@ export async function fetchGroup(id: string) {
   return group;
 }
 
-export async function updateGroup(id: string, updatedGroup: IGroup) {
+export async function updateGroup({ id, ...updatedGroup }: IGroup) {
   await updateDoc(doc(groupsCollection, id), { ...updatedGroup });
 }
 

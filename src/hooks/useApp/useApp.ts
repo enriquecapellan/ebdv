@@ -61,7 +61,7 @@ export function useApp() {
   async function editChild(child: IChild, photo: File | null) {
     setGroupsLoading(true);
     if (photo) updloadImage(photo, `children.${child.id}.jpg`);
-    updateChild(child.id || "", child);
+    updateChild(child);
 
     loadChildren();
   }
@@ -93,10 +93,13 @@ export function useApp() {
     loadSpecialAgents();
   }
 
-  async function editSpecialAgent(specialAgent: ISpecialAgent, photo: File | null) {
+  async function editSpecialAgent(
+    specialAgent: ISpecialAgent,
+    photo: File | null
+  ) {
     setGroupsLoading(true);
     if (photo) updloadImage(photo, `special-agents.${specialAgent.id}.jpg`);
-    updateSpecialAgent(specialAgent.id || "", specialAgent);
+    updateSpecialAgent(specialAgent);
 
     loadSpecialAgents();
   }
@@ -144,7 +147,7 @@ export function useApp() {
     if (leaderPhoto) updloadImage(leaderPhoto, `groups.${group.id}.leader.jpg`);
     if (assistantPhoto)
       updloadImage(assistantPhoto, `groups.${group.id}.assistant.jpg`);
-    updateGroup(group.id || "", group);
+    updateGroup(group);
 
     loadGroups();
   }
@@ -207,20 +210,19 @@ export function useApp() {
       setActiveGroup,
       setFilters,
       setGroupsLoading,
-      
+
       addLeader,
       loadLeaders,
       setLeaders,
       setActiveLeader,
       setLeadersLoading,
-      
+
       addSpecialAgent,
       loadSpecialAgents,
       editSpecialAgent,
       setSpecialAgents,
       setActiveSpecialAgent,
       setSpecialAgentsLoading,
-
     },
   };
 }

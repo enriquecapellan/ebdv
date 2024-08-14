@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { IChild, IGroup } from "../../types/models";
+import { IChild, IGroup, ISpecialAgent } from "../../types/models";
 import { Card } from "./cardnet.styles";
 import QRCode from "react-qr-code";
 import { useEffect, useState } from "react";
@@ -176,3 +176,9 @@ export const GropCards = ({ group }: GropCardProps) => {
     </>
   );
 };
+
+type SpecialCardProps = {
+  agent: ISpecialAgent;
+};
+
+export const SpecialCardnet = ({ agent }) => {};

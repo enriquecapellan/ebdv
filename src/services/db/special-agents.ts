@@ -41,10 +41,10 @@ export async function fetchSpecialAgent(id: string) {
   return specialAgent;
 }
 
-export async function updateSpecialAgent(
-  id: string,
-  specialAgent: ISpecialAgent
-) {
+export async function updateSpecialAgent({
+  id,
+  ...specialAgent
+}: ISpecialAgent) {
   await updateDoc(doc(specialAgentsCollection, id), { ...specialAgent });
 }
 
