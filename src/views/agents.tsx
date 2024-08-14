@@ -32,13 +32,9 @@ export const Agents = () => {
 
       <div ref={cards}>
         <Wrapper>
-          {state.children.map((child) =>
-            <Cardnet
-              key={child.id}
-              imageIndex={1}
-              child={child}
-            />
-          )}
+          {state.children.map((child) => (
+            <Cardnet key={child.id} imageIndex={1} child={child} />
+          ))}
         </Wrapper>
       </div>
     </>

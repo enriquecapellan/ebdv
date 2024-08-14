@@ -25,8 +25,7 @@
     "react-qr-code": "^2.0.15",
     "react-qr-reader": "^3.0.0-beta-1",
     "react-router-dom": "^6.26.0",
-    "styled-components": "^6.1.12",
-    "talkify": "^2.2.0"
+    "styled-components": "^6.1.12"
   },
   "devDependencies": {
     "@eslint/js": "^9.8.0",

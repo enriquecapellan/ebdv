@@ -42,7 +42,7 @@ export const ChildrenTable = () => {
               </TableCell>
               <TableCell>{row.age}</TableCell>
               <TableCell>{row.group.agent}</TableCell>
-              <TableCell>{row.group.leader.name}</TableCell>
+              <TableCell>{row.group.leader}</TableCell>
             </TableRow>
           ))}
         </TableBody>

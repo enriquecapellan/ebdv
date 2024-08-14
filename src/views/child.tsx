@@ -64,14 +64,16 @@ export const ChildDetails = () => {
             />
             <DetailsItem
               title="Maestra"
-              subTitle={child.group.leader.name}
+              subTitle={child.group.leader}
               icon={<Woman />}
             />
-            <DetailsItem
-              title="Ayudante"
-              subTitle={child.group.assistant?.name || "No tiene"}
-              icon={<BoyIcon />}
-            />
+            {child.group.assistant && (
+              <DetailsItem
+                title="Ayudante"
+                subTitle={child.group.assistant || "No tiene"}
+                icon={<BoyIcon />}
+              />
+            )}
           </List>
         </Grid>
       </CardContent>

@@ -38,8 +38,8 @@ export const GroupDetails = () => {
       <Card>
         <CardMedia
           sx={{ height: 300 }}
-          image={group.leader.photo}
-          title={group.leader.name}
+          image={group.leaderPhoto}
+          title={group.leader}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
@@ -49,13 +49,13 @@ export const GroupDetails = () => {
             <List>
               <DetailsItem
                 title="Maestra"
-                subTitle={group.leader.name}
+                subTitle={group.leader}
                 icon={<WomanIcon />}
               />
-              {group.assistant.name && (
+              {group.assistant && (
                 <DetailsItem
                   title="Asistente"
-                  subTitle={group.assistant.name}
+                  subTitle={group.assistant}
                   icon={<WomanIcon />}
                 />
               )}

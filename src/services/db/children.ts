@@ -12,6 +12,7 @@ import {
 
 import { IChild } from "../../types/models";
 import { db } from "../firebase";
+import { getImage } from "./images";
 
 const childrenCollection = collection(db, "children");
 
@@ -37,7 +38,13 @@ export async function fetchChildren(groupId?: string) {
 
 export async function fetchChild(id: string) {
   const document = await getDoc(doc(childrenCollection, id));
-  return document.exists()
+  const child = document.exists()
     ? ({ ...document.data(), id: document.id } as IChild)
     : null;
+
+  if (child) {
+    child.photo = (await getImage(`children.${id}.jpg`)) || "";
+  }
+
+  return child;
 }

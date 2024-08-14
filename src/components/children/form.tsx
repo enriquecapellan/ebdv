@@ -25,8 +25,7 @@ export function ChildrenFrom() {
 
   async function handleAddChild(child: IChild) {
     const group = state.groups.find(
-      (g) =>
-        `${g.leader.name} - ${g.agent}` === ((child.group as unknown) as string)
+      (g) => `${g.leader} - ${g.agent}` === ((child.group as unknown) as string)
     );
     if (!image || !group) return;
 
@@ -41,7 +40,7 @@ export function ChildrenFrom() {
 
   const groupsOptions = state.groups.map((group) => ({
     ...group,
-    label: `${group.leader.name} - ${group.agent}`,
+    label: `${group.leader} - ${group.agent}`,
   }));
 
   return (

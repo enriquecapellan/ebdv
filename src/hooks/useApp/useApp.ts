@@ -3,7 +3,8 @@ import { appContext } from "./AppContext";
 import { IChild, IGroup, IGroupsFilters } from "../../types/models";
 import { createChild, fetchChildren } from "../../services/db/children";
 import { createGroup, fetchGroups } from "../../services/db/groups";
-import { fileToBase64 } from "../../utils";
+import { uploadFile } from "../../services/storage";
+import { updloadImage } from "../../services/db/images";
 
 export function useApp() {
   const context = useContext(appContext);
@@ -29,8 +30,8 @@ export function useApp() {
 
   async function addChild(child: IChild, photoFile: File) {
     setChildrenLoading(true);
-    child.photo = await fileToBase64(photoFile);
-    await createChild(child);
+    const id = await createChild(child);
+    updloadImage(photoFile, `children.${id}.jpg`);
     loadChildren();
   }
 
@@ -55,12 +56,12 @@ export function useApp() {
     leaderPhoto: File,
     assistantPhoto: File | null
   ) {
-    group.leader.photo = await fileToBase64(leaderPhoto);
-    if (group.assistant && assistantPhoto) {
-      group.assistant.photo = await fileToBase64(assistantPhoto);
-    }
     setGroupsLoading(true);
-    await createGroup(group);
+    const id = await createGroup(group);
+    uploadFile(leaderPhoto, `groups/${id}/leader.jpg`);
+    if (assistantPhoto)
+      uploadFile(assistantPhoto, `groups/${id}/assistant.jpg`);
+
     loadGroups();
   }
 

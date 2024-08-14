@@ -1,16 +1,18 @@
 import styled from "styled-components";
 
-import image1 from "../../assets/img/carnets/1.png";
-import image2 from "../../assets/img/carnets/2.png";
-import image3 from "../../assets/img/carnets/3.png";
-import image4 from "../../assets/img/carnets/4.png";
+import Mateo from "../../assets/img/carnets/Mateo.png";
+import Marcos from "../../assets/img/carnets/Marcos.png";
+import Lucas from "../../assets/img/carnets/Lucas.png";
+import Juan from "../../assets/img/carnets/Juan.png";
 
-const images = [image1, image2, image3, image4];
+const images = { Mateo, Marcos, Lucas, Juan };
 
-export const Card = styled.div<{ imageIndex: number }>`
+const getImage = (key: string) => images[key as keyof typeof images];
+
+export const Card = styled.div<{ agent: string }>`
   width: 6cm;
   height: 9cm;
-  background-image: url(${(props) => images[props.imageIndex]});
+  background-image: url(${(props) => getImage(props.agent)});
   background-size: cover;
   padding-top: 2.5cm;
 

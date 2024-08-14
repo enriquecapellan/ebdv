@@ -1,8 +1,3 @@
-interface IPerson {
-  name: string;
-  photo: string;
-}
-
 export interface IGroupsFilters {
   agent?: string;
   calling: string;
@@ -12,12 +7,16 @@ export interface IGroup {
   id?: string;
   calling: string;
   agent: string;
-  leader: IPerson;
-  assistant: IPerson;
+  leader: string;
+  leaderPhoto?: string;
+  assistant: string;
+  assistantPhoto?: string;
 }
 
-export interface IChild extends IPerson {
+export interface IChild {
   id?: string;
+  photo?: string;
+  name: string;
   group: IGroup;
   age: number;
   sex: "male" | "female";

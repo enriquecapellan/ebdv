@@ -45,12 +45,12 @@ export const GroupsTable = () => {
                   style={{ textDecoration: "none", color: "white" }}
                   to={`/groups/${row.id}`}
                 >
-                  {row.leader.name}
+                  {row.leader}
                 </Link>
               </TableCell>
               <TableCell>{row.agent}</TableCell>
               <TableCell>{row.calling}</TableCell>
-              <TableCell>{row.assistant?.name || "---"}</TableCell>
+              <TableCell>{row.assistant || "---"}</TableCell>
             </TableRow>
           ))}
         </TableBody>

@@ -2,17 +2,28 @@ import { Box, Typography } from "@mui/material";
 import { IChild } from "../../types/models";
 import { Card } from "./cardnet.styles";
 import QRCode from "react-qr-code";
+import { useEffect, useState } from "react";
+import { getImage } from "../../services/db/images";
 
 type CardProps = {
   child: IChild;
   imageIndex: number;
 };
 
-export const Cardnet = ({ child, imageIndex }: CardProps) => {
+export const Cardnet = ({ child }: CardProps) => {
+  const [photo, setPhoto] = useState("");
+  useEffect(() => {
+    async function getPhoto() {
+      const photo = (await getImage(`children.${child.id}.jpg`)) || "";
+      setPhoto(photo);
+    }
+    getPhoto();
+  }, [child.id]);
+
   return (
-    <Card imageIndex={imageIndex}>
+    <Card agent={child.group.agent}>
       <Box display="flex">
-        <img src={child.photo} alt={child.name} />
+        <img src={photo} alt={child.name} />
         <Box>
           <Box
             height="0.82cm"
@@ -36,7 +47,12 @@ export const Cardnet = ({ child, imageIndex }: CardProps) => {
         <Typography lineHeight={1} fontSize={12}>
           NOMBRE
         </Typography>
-        <Typography marginBottom={1} lineHeight={1} fontWeight="bold" fontSize={12}>
+        <Typography
+          marginBottom={1}
+          lineHeight={1}
+          fontWeight="bold"
+          fontSize={12}
+        >
           {child.name.toUpperCase()}
         </Typography>
         <Typography lineHeight={1} fontSize={12}>

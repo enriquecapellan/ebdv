@@ -58,8 +58,8 @@ export function GroupFrom() {
             form={form}
             options={CALLINGS}
           />
-          <Input id="leader.name" label="Maestra" form={form} />
-          <Input id="assistant.name" label="Ayudante" form={form} required={false} />
+          <Input id="leader" label="Maestra" form={form} />
+          <Input id="assistant" label="Ayudante" form={form} required={false} />
           <MuiFileInput
             required
             value={leaderPhoto}

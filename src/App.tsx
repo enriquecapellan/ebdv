@@ -19,18 +19,18 @@ const darkTheme = createTheme({
 
 function App() {
   return (
-    <ThemeProvider theme={darkTheme}>
-      <CssBaseline />
+    <AppProvider>
+      <ThemeProvider theme={darkTheme}>
+        <CssBaseline />
 
-      <AppProvider>
         <Header />
         <Sidebar />
         <GlobalStyles />
         <Content>
           <Outlet />
         </Content>
-      </AppProvider>
-    </ThemeProvider>
+      </ThemeProvider>
+    </AppProvider>
   );
 }
 
