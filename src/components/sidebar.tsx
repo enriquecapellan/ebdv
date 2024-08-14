@@ -9,6 +9,7 @@ import ListItemText from "@mui/material/ListItemText";
 
 import HomeIcon from "@mui/icons-material/Home";
 import BoyIcon from "@mui/icons-material/Boy";
+import ContactEmergencyIcon from '@mui/icons-material/ContactEmergency';
 
 import GroupIcon from "@mui/icons-material/Group";
 import { useApp } from "../hooks/useApp/useApp";
@@ -26,6 +27,7 @@ export const Sidebar = () => {
         <Box sx={{ width: 250 }} role="presentation" onClick={toggleSidebar}>
           <List>
             <Item path="/" icon={<HomeIcon />} text="Home" selected />
+            <Item path="/leaders" icon={<ContactEmergencyIcon />} text="Líderes" />
             <Item path="/groups" icon={<GroupIcon />} text="Grupos" />
             <Item path="/children" icon={<BoyIcon />} text="Niños" />
             {/* <Item path="/agents" icon={<BoyIcon />} text="Cardnets" /> */}
