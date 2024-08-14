@@ -1,10 +1,12 @@
 import { useEffect, useRef } from "react";
 import styled from "styled-components";
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import html2PDF from "jspdf-html2canvas";
+import PrintIcon from "@mui/icons-material/Print";
 
 import { Cardnet } from "../components/cardnet";
 import { useApp } from "../hooks/useApp/useApp";
+import { Filters } from "../components/filters";
 
 export const Agents = () => {
   const { state, actions } = useApp();
@@ -28,7 +30,12 @@ export const Agents = () => {
 
   return (
     <>
-      <Button onClick={print}>Print</Button>
+      <Box display="flex" gap={1} marginBottom={2}>
+        <Filters />
+        <Button size="small" variant="contained" onClick={print}>
+          <PrintIcon />
+        </Button>
+      </Box>
 
       <div ref={cards}>
         <Wrapper>

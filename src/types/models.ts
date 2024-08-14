@@ -1,4 +1,4 @@
-export interface IGroupsFilters {
+export interface IFilters {
   agent?: string;
   calling: string;
 }
@@ -11,6 +11,14 @@ export interface IGroup {
   leaderPhoto?: string;
   assistant: string;
   assistantPhoto?: string;
+}
+
+export interface ILeader {
+  id?: string;
+  name: string;
+  agent: string;
+  calling: string;
+  photo?: string;
 }
 
 export interface IChild {

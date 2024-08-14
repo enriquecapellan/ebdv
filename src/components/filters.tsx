@@ -1,19 +1,19 @@
 import { useForm } from "react-hook-form";
-import { DropdownInput } from "../input";
-import { AGENTS, CALLINGS } from "./constants";
+import { DropdownInput } from "./input";
+import { AGENTS, CALLINGS } from "../constants";
 import { Box, Button, Drawer } from "@mui/material";
 import FilterIcon from "@mui/icons-material/FilterAlt";
 import { useState } from "react";
-import { useApp } from "../../hooks/useApp/useApp";
-import { IGroupsFilters } from "../../types/models";
+import { useApp } from "../hooks/useApp/useApp";
+import { IFilters } from "../types/models";
 
-export const GroupFilters = () => {
+export const Filters = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { actions, state } = useApp();
-  const form = useForm<IGroupsFilters>({ defaultValues: state.groupsFilters });
+  const form = useForm<IFilters>({ defaultValues: state.filters });
 
   function handleClose() {
-    form.handleSubmit(actions.setGroupsFilters)();
+    form.handleSubmit(actions.setFilters)();
     setIsOpen(false);
   }
 

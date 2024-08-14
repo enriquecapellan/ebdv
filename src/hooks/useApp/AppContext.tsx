@@ -7,14 +7,19 @@ export const appContext = createContext<AppContextType | null>(null);
 const initialState: AppState = {
   // general
   isSidebarOpen: false,
+  filters: {
+    agent: "",
+    calling: "",
+  },
+
+  // leaders
+  leaders: [],
+  isLeadersLoading: false,
+
 
   // groups
   groups: [],
   isGroupsLoading: false,
-  groupsFilters: {
-    agent: "Mateo",
-    calling: "",
-  },
 
   // children
   children: [],

@@ -1,12 +1,16 @@
-import { IChild, IGroup, IGroupsFilters } from "../../types/models";
+import { IChild, IGroup, IFilters, ILeader } from "../../types/models";
 
 export interface AppState {
   isSidebarOpen: boolean;
+  filters: IFilters;
 
   // groups
   groups: IGroup[];
   isGroupsLoading: boolean;
-  groupsFilters: IGroupsFilters;
+
+  // groups
+  leaders: ILeader[];
+  isLeadersLoading: boolean;
 
   // children
   children: IChild[];
@@ -29,9 +33,15 @@ type SetChildrenLoadingAction = {
 
 type SetGroupsAction = { type: "SET_GROUPS"; payload: IGroup[] };
 type SetGroupsLoadingAction = { type: "SET_GROUPS_LOADING"; payload: boolean };
-type SetGroupsFiltersAction = {
-  type: "SET_GROUPS_FILTERS";
-  payload: IGroupsFilters;
+type setFiltersAction = {
+  type: "SET_FILTERS";
+  payload: IFilters;
+};
+
+type SetLeadersAction = { type: "SET_LEADERS"; payload: ILeader[] };
+type SetLeadersLoadingAction = {
+  type: "SET_LEADERS_LOADING";
+  payload: boolean;
 };
 
 export type Action =
@@ -40,4 +50,6 @@ export type Action =
   | SetChildrenLoadingAction
   | SetGroupsAction
   | SetGroupsLoadingAction
-  | SetGroupsFiltersAction;
+  | setFiltersAction
+  | SetLeadersAction
+  | SetLeadersLoadingAction;

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -7,46 +7,83 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Link, useParams } from "react-router-dom";
+import TrashIcon from "@mui/icons-material/Delete";
 
 import { useApp } from "../../hooks/useApp/useApp";
+import { IconButton } from "@mui/material";
+import { deleteChild } from "../../services/db/children";
+import { Confirm } from "../confirm";
 
 export const ChildrenTable = () => {
+  const [deleteChildId, setDeleteChildId] = useState("");
   const { state, actions } = useApp();
+  const { children, filters } = state;
   const { groupId } = useParams<{ groupId: string }>();
+
+  const data = useMemo(() => {
+    return children.filter(
+      (child) =>
+        (!filters.agent || child.group.agent === filters.agent) &&
+        (!filters.calling || child.group.calling === filters.calling)
+    );
+  }, [children, filters]);
+
+  function handleDelete(id: string) {
+    deleteChild(id);
+    setDeleteChildId("");
+    actions.loadChildren(groupId);
+  }
 
   useEffect(() => {
     actions.loadChildren(groupId);
   }, []);
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} size="small">
-        <TableHead>
-          <TableRow>
-            <TableCell>Nombre</TableCell>
-            <TableCell>Edad</TableCell>
-            <TableCell>Agente</TableCell>
-            <TableCell>Maestra</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {state.children.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell component="th" scope="row">
-                <Link
-                  style={{ textDecoration: "none", color: "white" }}
-                  to={`/children/${row.id}`}
-                >
-                  {row.name}
-                </Link>
-              </TableCell>
-              <TableCell>{row.age}</TableCell>
-              <TableCell>{row.group.agent}</TableCell>
-              <TableCell>{row.group.leader}</TableCell>
+    <>
+      <Confirm
+        question="¿Estás seguro de eliminar este niño?"
+        open={!!deleteChildId}
+        onClose={() => setDeleteChildId("")}
+        onAccept={() => handleDelete(deleteChildId)}
+      />
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell>Nombre</TableCell>
+              <TableCell>Edad</TableCell>
+              <TableCell>Agente</TableCell>
+              <TableCell>Maestra</TableCell>
+              <TableCell></TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {data.map((row) => (
+              <TableRow key={row.id}>
+                <TableCell component="th" scope="row">
+                  <Link
+                    style={{ textDecoration: "none", color: "white" }}
+                    to={`/children/${row.id}`}
+                  >
+                    {row.name}
+                  </Link>
+                </TableCell>
+                <TableCell>{row.age}</TableCell>
+                <TableCell>{row.group.agent}</TableCell>
+                <TableCell>{row.group.leader}</TableCell>
+                <TableCell>
+                  <IconButton
+                    size="small"
+                    onClick={() => setDeleteChildId(row.id || "")}
+                  >
+                    <TrashIcon />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </>
   );
 };

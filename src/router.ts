@@ -10,6 +10,7 @@ import { ChildDetails, QRChildDetails } from "./views/child";
 import { GroupDetails } from "./views/group";
 import { ScanQR } from "./views/scan";
 import { Unlock } from "./views/unlock";
+import { Leaders } from "./views/leadres";
 
 export const router = createBrowserRouter([
   {
@@ -24,6 +25,7 @@ export const router = createBrowserRouter([
       { path: "/agents", element: createElement(Agents) },
       { path: "/scan", element: createElement(ScanQR) },
       { path: "/unlock/:id", element: createElement(Unlock) },
+      { path: "/leaders", element: createElement(Leaders) },
     ],
   },
   {

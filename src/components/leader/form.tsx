@@ -10,31 +10,30 @@ import CloseIcon from "@mui/icons-material/Close";
 import { MuiFileInput } from "mui-file-input";
 
 import { DropdownInput, Input } from "../input";
-import { IGroup } from "../../types/models";
+import { ILeader } from "../../types/models";
 import { useApp } from "../../hooks/useApp/useApp";
 
 import { AGENTS, CALLINGS } from "../../constants";
 
-export function GroupFrom() {
+export function LeaderFrom() {
   const [leaderPhoto, setLeaderPhoto] = useState<File | null>(null);
-  const [assistantPhoto, setAssistantPhoto] = useState<File | null>(null);
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
   const { state, actions } = useApp();
 
-  const form = useForm<IGroup>();
+  const form = useForm<ILeader>();
   const { handleSubmit } = form;
 
-  async function handleAddGroup(data: IGroup) {
+  async function handleAddGroup(data: ILeader) {
     if (!leaderPhoto) return;
-    await actions.addGroup(data, leaderPhoto, assistantPhoto);
+    await actions.addLeader(data, leaderPhoto);
     handleClose();
   }
 
   return (
     <Wrapper>
       <Button size="small" variant="contained" onClick={() => setOpen(true)}>
-        Agregar Grupo
+        Agregar Líder
       </Button>
       <Dialog
         open={open}
@@ -46,6 +45,7 @@ export function GroupFrom() {
       >
         <DialogTitle>Agregar Grupo</DialogTitle>
         <DialogContent>
+          <Input id="name" label="Nombre del líder" form={form} />
           <DropdownInput
             id="agent"
             label="Agente"
@@ -58,25 +58,12 @@ export function GroupFrom() {
             form={form}
             options={CALLINGS}
           />
-          <Input id="leader" label="Maestra" form={form} />
-          <Input id="assistant" label="Ayudante" form={form} required={false} />
           <MuiFileInput
             required
             value={leaderPhoto}
             onChange={setLeaderPhoto}
             style={{ marginTop: "2rem" }}
             label="Foto Maestra"
-            inputProps={{ accept: ".png, .jpeg, .jpg" }}
-            clearIconButtonProps={{
-              title: "Remove",
-              children: <CloseIcon fontSize="small" />,
-            }}
-          />
-          <MuiFileInput
-            value={assistantPhoto}
-            onChange={setAssistantPhoto}
-            style={{ marginTop: "2rem" }}
-            label="Foto Ayudante"
             inputProps={{ accept: ".png, .jpeg, .jpg" }}
             clearIconButtonProps={{
               title: "Remove",

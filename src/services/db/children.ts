@@ -8,6 +8,7 @@ import {
   DocumentData,
   query,
   where,
+  deleteDoc,
 } from "firebase/firestore";
 
 import { IChild } from "../../types/models";
@@ -47,4 +48,8 @@ export async function fetchChild(id: string) {
   }
 
   return child;
+}
+
+export async function deleteChild(id: string) { 
+  await deleteDoc(doc(childrenCollection, id));
 }

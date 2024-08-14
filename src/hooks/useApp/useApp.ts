@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import { appContext } from "./AppContext";
-import { IChild, IGroup, IGroupsFilters } from "../../types/models";
+import { IChild, IGroup, IFilters, ILeader } from "../../types/models";
 import { createChild, fetchChildren } from "../../services/db/children";
 import { createGroup, fetchGroups } from "../../services/db/groups";
-import { uploadFile } from "../../services/storage";
 import { updloadImage } from "../../services/db/images";
+import { createLeader, fetchLeaders } from "../../services/db/leaders";
 
 export function useApp() {
   const context = useContext(appContext);
@@ -58,9 +58,9 @@ export function useApp() {
   ) {
     setGroupsLoading(true);
     const id = await createGroup(group);
-    uploadFile(leaderPhoto, `groups/${id}/leader.jpg`);
+    updloadImage(leaderPhoto, `groups.${id}.leader.jpg`);
     if (assistantPhoto)
-      uploadFile(assistantPhoto, `groups/${id}/assistant.jpg`);
+      updloadImage(assistantPhoto, `groups.${id}.assistant.jpg`);
 
     loadGroups();
   }
@@ -69,8 +69,31 @@ export function useApp() {
     dispatch({ type: "SET_GROUPS", payload: groups });
   }
 
-  function setGroupsFilters(filters: IGroupsFilters) {
-    dispatch({ type: "SET_GROUPS_FILTERS", payload: filters });
+  async function addLeader(leader: ILeader, photo: File) {
+    setGroupsLoading(true);
+    const id = await createLeader(leader);
+    updloadImage(photo, `leaders.${id}.jpg`);
+
+    loadLeaders();
+  }
+
+  async function loadLeaders() {
+    setGroupsLoading(true);
+    const leaders = await fetchLeaders();
+    setLeaders(leaders);
+    setGroupsLoading(false);
+  }
+
+  function setLeaders(leaders: ILeader[] = []) {
+    dispatch({ type: "SET_LEADERS", payload: leaders });
+  }
+
+  function setLeadersLoading(isLoading: boolean) {
+    dispatch({ type: "SET_LEADERS_LOADING", payload: isLoading });
+  }
+
+  function setFilters(filters: IFilters) {
+    dispatch({ type: "SET_FILTERS", payload: filters });
   }
 
   function setGroupsLoading(isLoading: boolean) {
@@ -88,8 +111,12 @@ export function useApp() {
       loadGroups,
       addGroup,
       setGroups,
-      setGroupsFilters,
+      setFilters,
       setGroupsLoading,
+      addLeader,
+      loadLeaders,
+      setLeaders,
+      setLeadersLoading,
     },
   };
 }

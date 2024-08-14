@@ -1,5 +1,4 @@
 import { useEffect, useMemo } from "react";
-import { Link } from "react-router-dom";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -7,23 +6,24 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { Link } from "react-router-dom";
 
 import { useApp } from "../../hooks/useApp/useApp";
 
-export const GroupsTable = () => {
+export const LeadersTable = () => {
   const { state, actions } = useApp();
-  const { groups, filters } = state;
+  const { leaders, filters } = state;
 
   const data = useMemo(() => {
-    return groups.filter(
-      (group) =>
-        (!filters.agent || group.agent === filters.agent) &&
-        (!filters.calling || group.calling === filters.calling)
+    return leaders.filter(
+      (leader) =>
+        (!filters.agent || leader.agent === filters.agent) &&
+        (!filters.calling || leader.calling === filters.calling)
     );
-  }, [groups, filters]);
+  }, [leaders, filters]);
 
   useEffect(() => {
-    actions.loadGroups();
+    actions.loadLeaders();
   }, []);
 
   return (
@@ -31,10 +31,9 @@ export const GroupsTable = () => {
       <Table sx={{ minWidth: 650 }} size="small">
         <TableHead>
           <TableRow>
-            <TableCell>Maestra</TableCell>
+            <TableCell>Nombre</TableCell>
             <TableCell>Agente</TableCell>
             <TableCell>Llamado</TableCell>
-            <TableCell>Ayudante</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -43,14 +42,13 @@ export const GroupsTable = () => {
               <TableCell component="th" scope="row">
                 <Link
                   style={{ textDecoration: "none", color: "white" }}
-                  to={`/groups/${row.id}`}
+                  to={`/leaders/${row.id}`}
                 >
-                  {row.leader}
+                  {row.name}
                 </Link>
               </TableCell>
               <TableCell>{row.agent}</TableCell>
               <TableCell>{row.calling}</TableCell>
-              <TableCell>{row.assistant || "---"}</TableCell>
             </TableRow>
           ))}
         </TableBody>
