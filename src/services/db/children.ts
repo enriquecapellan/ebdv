@@ -33,8 +33,8 @@ export async function fetchChildren(groupId?: string) {
   }
 
   return snapshot.docs.map((doc) => ({
-    id: doc.id,
     ...doc.data(),
+    id: doc.id,
   })) as IChild[];
 }
 

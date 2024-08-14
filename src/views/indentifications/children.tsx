@@ -23,9 +23,6 @@ export const ChildrenIdentifications = () => {
     [children, filters.agent, filters.calling]
   );
 
-  console.log(children.filter(ch => ch.id === 'FgkyUirArxM3LlD2VEYR'))
-  console.log(data);
-
   function print() {
     if (cards.current) {
       html2PDF(cards.current, {

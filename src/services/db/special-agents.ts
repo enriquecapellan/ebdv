@@ -23,8 +23,8 @@ export async function fetchSpecialAgents() {
   const snapshot = await getDocs(specialAgentsCollection);
 
   return snapshot.docs.map((doc) => ({
-    id: doc.id,
     ...doc.data(),
+    id: doc.id,
   })) as ISpecialAgent[];
 }
 

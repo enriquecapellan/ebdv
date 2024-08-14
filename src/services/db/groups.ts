@@ -22,8 +22,8 @@ export async function createGroup(group: IGroup) {
 export async function fetchGroups() {
   const snapshot = await getDocs(groupsCollection);
   return snapshot.docs.map((doc) => ({
-    id: doc.id,
     ...doc.data(),
+    id: doc.id,
   })) as IGroup[];
 }
 

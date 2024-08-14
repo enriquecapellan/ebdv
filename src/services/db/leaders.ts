@@ -15,8 +15,8 @@ export async function fetchLeaders() {
   const snapshot = await getDocs(leaderCollection);
 
   return snapshot.docs.map((doc) => ({
-    id: doc.id,
     ...doc.data(),
+    id: doc.id,
   })) as ILeader[];
 }
 
