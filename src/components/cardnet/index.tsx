@@ -181,4 +181,6 @@ type SpecialCardProps = {
   agent: ISpecialAgent;
 };
 
-export const SpecialCardnet = ({ agent }) => {};
+export const SpecialCardnet = ({ agent }: SpecialCardProps) => {
+  console.log(agent);
+};
