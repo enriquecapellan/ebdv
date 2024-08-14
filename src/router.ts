@@ -11,6 +11,7 @@ import { GroupDetails } from "./views/group";
 import { ScanQR } from "./views/scan";
 import { Unlock } from "./views/unlock";
 import { Leaders } from "./views/leadres";
+import { GroupsIdentifications } from "./views/groupsIdentifications";
 
 export const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ export const router = createBrowserRouter([
     children: [
       { path: "/", element: createElement(Home) },
       { path: "/groups", element: createElement(Groups) },
+      {
+        path: "/groups/cardnets",
+        element: createElement(GroupsIdentifications),
+      },
       { path: "/groups/:groupId", element: createElement(GroupDetails) },
       { path: "/children", element: createElement(Children) },
       { path: "/children/:id", element: createElement(ChildDetails) },

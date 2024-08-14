@@ -7,7 +7,9 @@ import Juan from "../../assets/img/carnets/Juan.png";
 
 const images = { Mateo, Marcos, Lucas, Juan };
 
-const getImage = (key: string) => images[key as keyof typeof images];
+const getImage = (key: string) => {
+  return images[(key.trim()) as keyof typeof images]
+};
 
 export const Card = styled.div<{ agent: string }>`
   width: 6cm;
