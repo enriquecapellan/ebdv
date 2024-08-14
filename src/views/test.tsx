@@ -2,7 +2,7 @@ import { OnResultFunction, QrReader } from "react-qr-reader";
 import { fetchChild } from "../services/db/children";
 
 export const Test = () => {
-  function speak(text) {
+  function speak(text: string) {
     const message = new SpeechSynthesisUtterance();
     message.text = text;
     message.voice = speechSynthesis.getVoices()[96];
