@@ -13,6 +13,7 @@ import { Unlock } from "./views/unlock";
 import { Leaders } from "./views/leadres";
 import { GroupsIdentifications } from "./views/indentifications/groups";
 import { SpecialAgents } from "./views/special-agents";
+import { LeadersIdentifications } from "./views/indentifications/leaders";
 
 export const router = createBrowserRouter([
   {
@@ -37,9 +38,13 @@ export const router = createBrowserRouter([
         path: "/identifications/groups",
         element: createElement(GroupsIdentifications),
       },
+      // {
+      //   path: "/identifications/special-agents",
+      //   // element: createElement(SpecialAgentsIdentifications),
+      // },
       {
-        path: "/identifications/special-agents",
-        // element: createElement(SpecialAgentsIdentifications),
+        path: "/identifications/leaders",
+        element: createElement(LeadersIdentifications),
       }
     ],
   },

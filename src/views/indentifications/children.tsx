@@ -17,8 +17,8 @@ export const ChildrenIdentifications = () => {
     () =>
       children.filter(
         (child) =>
-          (!filters.agent || child.group.agent === filters.agent) &&
-          (!filters.calling || child.group.calling === filters.calling)
+          child.group.agent === filters.agent &&
+          child.group.calling === filters.calling
       ),
     [children, filters.agent, filters.calling]
   );

@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { IChild, IGroup, ISpecialAgent } from "../../types/models";
+import { IChild, IGroup, ILeader, ISpecialAgent } from "../../types/models";
 import { Card } from "./cardnet.styles";
 import QRCode from "react-qr-code";
 import { useEffect, useState } from "react";
@@ -183,4 +183,59 @@ type SpecialCardProps = {
 
 export const SpecialCardnet = ({ agent }: SpecialCardProps) => {
   console.log(agent);
+};
+
+type LeaderCardProps = {
+  leader: ILeader;
+};
+
+export const LeaderCard = ({ leader }: LeaderCardProps) => {
+  const [photo, setPhoto] = useState("");
+
+  useEffect(() => {
+    async function getPhotos() {
+      const leaderPhoto = (await getImage(`leaders.${leader.id}.jpg`)) || "";
+      setPhoto(leaderPhoto);
+    }
+    getPhotos();
+  }, [leader.id]);
+
+  return (
+    <Card agent={leader.agent}>
+      <Box display="flex">
+        <img src={photo} alt={leader.name} />
+        <Box>
+          <Box
+            height="0.82cm"
+            width="100%"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Typography fontWeight="bold" fontSize={11}>
+              AGENTE DE {leader.agent.toUpperCase()}
+            </Typography>
+          </Box>
+          <QRCode
+            height="3.18cm"
+            width="3cm"
+            value={`${window.location.protocol}/${window.location.host}/qr/leaders/${leader.id}`}
+          />
+        </Box>
+      </Box>
+      <Box marginLeft="2.4cm" marginTop={1}>
+        <Typography lineHeight={1} fontSize={12}>
+          NOMBRE
+        </Typography>
+        <Typography
+          marginBottom={1}
+          lineHeight={1}
+          fontWeight="bold"
+          fontSize={12}
+        >
+          {leader.name.toUpperCase()}
+        </Typography>
+      </Box>
+    </Card>
+  );
 };

@@ -1,4 +1,4 @@
-import { addDoc, doc, getDoc, getDocs, collection } from "firebase/firestore";
+import { addDoc, doc, getDoc, getDocs, collection, deleteDoc } from "firebase/firestore";
 
 import { ILeader } from "../../types/models";
 import { db } from "../firebase";
@@ -31,4 +31,8 @@ export async function fetchLeader(id: string) {
   }
 
   return child;
+}
+
+export async function deleteLeader(id: string) {
+  await deleteDoc(doc(leaderCollection, id));
 }
