@@ -1,3 +1,5 @@
+import { HomeContent } from "../components/homeContent";
+
 export const Home = () => {
-  return <div>Home</div>;
+  return <div><HomeContent/></div>;
 };
