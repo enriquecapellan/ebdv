@@ -1,4 +1,14 @@
-import { addDoc, doc, getDoc, getDocs, collection } from "firebase/firestore";
+import {
+  addDoc,
+  doc,
+  getDoc,
+  getDocs,
+  collection,
+  QuerySnapshot,
+  DocumentData,
+  query,
+  where,
+} from "firebase/firestore";
 
 import { IChild } from "../../types/models";
 import { db } from "../firebase";
@@ -10,8 +20,15 @@ export async function createChild(group: IChild) {
   return docRef.id;
 }
 
-export async function fetchChildren() {
-  const snapshot = await getDocs(childrenCollection);
+export async function fetchChildren(groupId?: string) {
+  let snapshot: QuerySnapshot<DocumentData, DocumentData>;
+  if (groupId) {
+    const q = query(childrenCollection, where("group.id", "==", groupId));
+    snapshot = await getDocs(q);
+  } else {
+    snapshot = await getDocs(childrenCollection);
+  }
+
   return snapshot.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),

@@ -1,24 +1,31 @@
-import { useState } from "react";
-import { QrReader } from "react-qr-reader";
+import { OnResultFunction, QrReader } from "react-qr-reader";
+import { fetchChild } from "../services/db/children";
 
 export const Test = () => {
-  const [data, setData] = useState("No result");
+  function speak(text) {
+    const message = new SpeechSynthesisUtterance();
+    message.text = text;
+    message.voice = speechSynthesis.getVoices()[96];
+    speechSynthesis.speak(message);
+  }
 
-  return (
-    <>
-      <QrReader
-        onResult={(result, error) => {
-          if (result) {
-            setData(result.getText());
-          }
+  const handleSchan: OnResultFunction = async (result, error) => {
+    if (result) {
+      const childUrl = result.getText();
+      const childId = childUrl.split("/")[4];
+      const child = await fetchChild(childId);
 
-          if (error) {
-            console.info(error);
-          }
-        }}
-        constraints={{}}
-      />
-      <p>{data}</p>
-    </>
-  );
+      if (child) {
+        speak(
+          `Hola ${child.name}! Bienvenido. has desbloqueado el acceso para el gruopo de ${child.group.calling} del agente ${child.group.calling}!`
+        );
+      }
+    }
+    if (error) {
+      console.error("Error reading QR code:", error);
+      return;
+    }
+  };
+
+  return <QrReader onResult={handleSchan} constraints={{}} />;
 };

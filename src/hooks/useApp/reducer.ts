@@ -10,6 +10,8 @@ export function reducer(state: AppState, action: Action): AppState {
       return { ...state, isChildrenLoading: action.payload };
     case "SET_GROUPS":
       return { ...state, groups: action.payload };
+    case "SET_GROUPS_FILTERS":
+      return { ...state, groupsFilters: action.payload };
     case "SET_GROUPS_LOADING":
       return { ...state, isGroupsLoading: action.payload };
     default:

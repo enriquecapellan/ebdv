@@ -6,14 +6,16 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { Link, useParams } from "react-router-dom";
 
 import { useApp } from "../../hooks/useApp/useApp";
 
-export const GroupsTable = () => {
+export const ChildrenTable = () => {
   const { state, actions } = useApp();
+  const { groupId } = useParams<{ groupId: string }>();
 
   useEffect(() => {
-    actions.loadGroups();
+    actions.loadChildren(groupId);
   }, []);
 
   return (
@@ -21,21 +23,26 @@ export const GroupsTable = () => {
       <Table sx={{ minWidth: 650 }} size="small">
         <TableHead>
           <TableRow>
-            <TableCell>Maestra</TableCell>
+            <TableCell>Nombre</TableCell>
+            <TableCell>Edad</TableCell>
             <TableCell>Agente</TableCell>
-            <TableCell>Llamado</TableCell>
-            <TableCell>Ayudante</TableCell>
+            <TableCell>Maestra</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {state.groups.map((row) => (
+          {state.children.map((row) => (
             <TableRow key={row.id}>
               <TableCell component="th" scope="row">
-                {row.leader}
+                <Link
+                  style={{ textDecoration: "none", color: "white" }}
+                  to={`/children/${row.id}`}
+                >
+                  {row.name}
+                </Link>
               </TableCell>
-              <TableCell>{row.agent}</TableCell>
-              <TableCell>{row.calling}</TableCell>
-              <TableCell>{row.assistant}</TableCell>
+              <TableCell>{row.age}</TableCell>
+              <TableCell>{row.group.agent}</TableCell>
+              <TableCell>{row.group.leader.name}</TableCell>
             </TableRow>
           ))}
         </TableBody>

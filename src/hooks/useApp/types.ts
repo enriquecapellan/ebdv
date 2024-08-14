@@ -1,4 +1,4 @@
-import { IChild, IGroup } from "../../types/models";
+import { IChild, IGroup, IGroupsFilters } from "../../types/models";
 
 export interface AppState {
   isSidebarOpen: boolean;
@@ -6,6 +6,7 @@ export interface AppState {
   // groups
   groups: IGroup[];
   isGroupsLoading: boolean;
+  groupsFilters: IGroupsFilters;
 
   // children
   children: IChild[];
@@ -28,10 +29,15 @@ type SetChildrenLoadingAction = {
 
 type SetGroupsAction = { type: "SET_GROUPS"; payload: IGroup[] };
 type SetGroupsLoadingAction = { type: "SET_GROUPS_LOADING"; payload: boolean };
+type SetGroupsFiltersAction = {
+  type: "SET_GROUPS_FILTERS";
+  payload: IGroupsFilters;
+};
 
 export type Action =
   | ToggleSidebarAction
   | SetChildrenAction
   | SetChildrenLoadingAction
   | SetGroupsAction
-  | SetGroupsLoadingAction;
+  | SetGroupsLoadingAction
+  | SetGroupsFiltersAction;

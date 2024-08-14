@@ -7,12 +7,12 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import CloseIcon from "@mui/icons-material/Close";
-
-import { DropdownInput, Input } from "../../components/input";
-import { IChild } from "../../types/models";
-import { useApp } from "../../hooks/useApp/useApp";
 import { MuiFileInput } from "mui-file-input";
 import { CircularProgress } from "@mui/material";
+
+import { DropdownInput, Input } from "../input";
+import { IChild } from "../../types/models";
+import { useApp } from "../../hooks/useApp/useApp";
 
 export function ChildrenFrom() {
   const [open, setOpen] = useState(false);
@@ -25,7 +25,8 @@ export function ChildrenFrom() {
 
   async function handleAddChild(child: IChild) {
     const group = state.groups.find(
-      (g) => `${g.leader} - ${g.agent}` === ((child.group as unknown) as string)
+      (g) =>
+        `${g.leader.name} - ${g.agent}` === ((child.group as unknown) as string)
     );
     if (!image || !group) return;
 
@@ -40,7 +41,7 @@ export function ChildrenFrom() {
 
   const groupsOptions = state.groups.map((group) => ({
     ...group,
-    label: `${group.leader} - ${group.agent}`,
+    label: `${group.leader.name} - ${group.agent}`,
   }));
 
   return (

@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
+import { Link } from "react-router-dom";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -6,15 +7,23 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Link } from "react-router-dom";
 
 import { useApp } from "../../hooks/useApp/useApp";
 
-export const ChildrenTable = () => {
+export const GroupsTable = () => {
   const { state, actions } = useApp();
+  const { groups, groupsFilters: filters } = state;
+
+  const data = useMemo(() => {
+    return groups.filter(
+      (group) =>
+        (!filters.agent || group.agent === filters.agent) &&
+        (!filters.calling || group.calling === filters.calling)
+    );
+  }, [groups, filters]);
 
   useEffect(() => {
-    actions.loadChildren();
+    actions.loadGroups();
   }, []);
 
   return (
@@ -22,26 +31,26 @@ export const ChildrenTable = () => {
       <Table sx={{ minWidth: 650 }} size="small">
         <TableHead>
           <TableRow>
-            <TableCell>Nombre</TableCell>
-            <TableCell>Edad</TableCell>
-            <TableCell>Agente</TableCell>
             <TableCell>Maestra</TableCell>
+            <TableCell>Agente</TableCell>
+            <TableCell>Llamado</TableCell>
+            <TableCell>Ayudante</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {state.children.map((row) => (
+          {data.map((row) => (
             <TableRow key={row.id}>
               <TableCell component="th" scope="row">
                 <Link
                   style={{ textDecoration: "none", color: "white" }}
-                  to={`/children/${row.id}`}
+                  to={`/groups/${row.id}`}
                 >
-                  {row.name}
+                  {row.leader.name}
                 </Link>
               </TableCell>
-              <TableCell>{row.age}</TableCell>
-              <TableCell>{row.group.agent}</TableCell>
-              <TableCell>{row.group.leader}</TableCell>
+              <TableCell>{row.agent}</TableCell>
+              <TableCell>{row.calling}</TableCell>
+              <TableCell>{row.assistant?.name || "---"}</TableCell>
             </TableRow>
           ))}
         </TableBody>

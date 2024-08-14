@@ -10,7 +10,7 @@ type InputProps = TextFieldProps & {
 };
 
 type DropdownInputProps = InputProps & {
-  options: (string | { [key: string]: string; label: string })[];
+  options: (string | { [key: string]: unknown; label: string })[];
 };
 
 export const Input = ({
@@ -45,15 +45,18 @@ export const DropdownInput = ({
       id={id}
       options={options}
       sx={{ width: 300 }}
-      renderInput={(params) => (
-        <TextField
-          required={required}
-          variant="standard"
-          label={label}
-          {...params}
-          {...form.register(id)}
-        />
-      )}
+      value={form.getValues(id)}
+      renderInput={(params) => {
+        return (
+          <TextField
+            required={required}
+            variant="standard"
+            label={label}
+            {...params}
+            {...form.register(id)}
+          />
+        );
+      }}
     />
   );
 };

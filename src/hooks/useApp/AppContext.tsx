@@ -11,6 +11,10 @@ const initialState: AppState = {
   // groups
   groups: [],
   isGroupsLoading: false,
+  groupsFilters: {
+    agent: "Mateo",
+    calling: "",
+  },
 
   // children
   children: [],

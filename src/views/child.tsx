@@ -1,18 +1,12 @@
 import { useEffect, useState } from "react";
-import {
-  CircularProgress,
-  Grid,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-} from "@mui/material";
+import { CircularProgress, Grid, List } from "@mui/material";
 import { useParams } from "react-router-dom";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import CssBaseline from "@mui/material/CssBaseline";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 import BoyIcon from "@mui/icons-material/Boy";
 import AgeIcon from "@mui/icons-material/Numbers";
@@ -23,6 +17,7 @@ import Woman from "@mui/icons-material/Woman";
 
 import { IChild } from "../types/models";
 import { fetchChild } from "../services/db/children";
+import { DetailsItem } from "../components/detailsItem";
 
 export const ChildDetails = () => {
   const [child, setChild] = useState<IChild | null>(null);
@@ -51,30 +46,30 @@ export const ChildDetails = () => {
         </Typography>
         <Grid item xs={12} md={6}>
           <List>
-            <Item
+            <DetailsItem
               title="Edad"
               subTitle={String(child.age)}
               icon={<AgeIcon />}
             />
-            <Item title="Sexo" subTitle={child.sex} icon={<SexIcon />} />
-            <Item
+            <DetailsItem title="Sexo" subTitle={child.sex} icon={<SexIcon />} />
+            <DetailsItem
               title="Agente"
               subTitle={child.group.agent}
               icon={<GroupIcon />}
             />
-            <Item
+            <DetailsItem
               title="Llamado"
               subTitle={child.group.calling}
               icon={<PhoneIcon />}
             />
-            <Item
+            <DetailsItem
               title="Maestra"
-              subTitle={child.group.leader}
+              subTitle={child.group.leader.name}
               icon={<Woman />}
             />
-            <Item
+            <DetailsItem
               title="Ayudante"
-              subTitle={child.group.assistant}
+              subTitle={child.group.assistant?.name || "No tiene"}
               icon={<BoyIcon />}
             />
           </List>
@@ -84,24 +79,20 @@ export const ChildDetails = () => {
   );
 };
 
-type ItemProps = {
-  title: string;
-  subTitle: string;
-  icon: React.ReactNode;
-};
-
-const Item = ({ title, subTitle, icon }: ItemProps) => (
-  <ListItem>
-    <ListItemIcon>{icon}</ListItemIcon>
-    <ListItemText primary={title} secondary={subTitle} />
-  </ListItem>
-);
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+  typography: {
+    fontSize: 20,
+  },
+});
 
 export const QRChildDetails = () => {
   return (
-    <>
+    <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <ChildDetails />
-    </>
+    </ThemeProvider>
   );
 };

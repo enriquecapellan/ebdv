@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { appContext } from "./AppContext";
-import { IChild, IGroup } from "../../types/models";
+import { IChild, IGroup, IGroupsFilters } from "../../types/models";
 import { createChild, fetchChildren } from "../../services/db/children";
 import { createGroup, fetchGroups } from "../../services/db/groups";
 import { fileToBase64 } from "../../utils";
@@ -20,9 +20,9 @@ export function useApp() {
   }
 
   // children actions
-  async function loadChildren() {
+  async function loadChildren(groupId?: string) {
     setChildrenLoading(true);
-    const children = await fetchChildren();
+    const children = await fetchChildren(groupId);
     setChildren(children);
     setChildrenLoading(false);
   }
@@ -50,7 +50,15 @@ export function useApp() {
     setGroupsLoading(false);
   }
 
-  async function addGroup(group: IGroup) {
+  async function addGroup(
+    group: IGroup,
+    leaderPhoto: File,
+    assistantPhoto: File | null
+  ) {
+    group.leader.photo = await fileToBase64(leaderPhoto);
+    if (group.assistant && assistantPhoto) {
+      group.assistant.photo = await fileToBase64(assistantPhoto);
+    }
     setGroupsLoading(true);
     await createGroup(group);
     loadGroups();
@@ -58,6 +66,10 @@ export function useApp() {
 
   function setGroups(groups: IGroup[] = []) {
     dispatch({ type: "SET_GROUPS", payload: groups });
+  }
+
+  function setGroupsFilters(filters: IGroupsFilters) {
+    dispatch({ type: "SET_GROUPS_FILTERS", payload: filters });
   }
 
   function setGroupsLoading(isLoading: boolean) {
@@ -75,6 +87,7 @@ export function useApp() {
       loadGroups,
       addGroup,
       setGroups,
+      setGroupsFilters,
       setGroupsLoading,
     },
   };
