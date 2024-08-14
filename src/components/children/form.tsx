@@ -101,7 +101,7 @@ export function ChildrenFrom() {
             onChange={setImage}
             style={{ marginTop: "2rem" }}
             label="Seleccionar imagen"
-            inputProps={{ accept: ".png, .jpeg, .jpg" }}
+            inputProps={{ accept: ".png, .jpeg, .jpg, .dng" }}
             clearIconButtonProps={{
               title: "Remove",
               children: <CloseIcon fontSize="small" />,
