@@ -27,7 +27,7 @@ export interface IChild {
   name: string;
   group: IGroup;
   age: number;
-  sex: "male" | "female";
+  sex: "Niño" | "Niña";
 }
 
 
