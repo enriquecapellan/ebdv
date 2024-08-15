@@ -11,6 +11,7 @@ export interface IGroup {
   leaderPhoto?: string;
   assistant: string;
   assistantPhoto?: string;
+  seconds?: number;
 }
 
 export interface ILeader {

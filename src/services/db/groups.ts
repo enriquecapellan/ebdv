@@ -29,6 +29,7 @@ export async function fetchGroups() {
 
 export async function fetchGroup(id: string) {
   const document = await getDoc(doc(groupsCollection, id));
+
   const group = document.exists()
     ? ({ ...document.data(), id: document.id } as IGroup)
     : null;
