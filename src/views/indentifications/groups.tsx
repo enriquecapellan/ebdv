@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import html2PDF from "jspdf-html2canvas";
 import PrintIcon from "@mui/icons-material/Print";
@@ -7,9 +7,30 @@ import { Box, Button } from "@mui/material";
 import { useApp } from "../../hooks/useApp/useApp";
 import { Filters } from "../../components/filters";
 import { GropCards } from "../../components/cardnet";
+import { DataGrid, GridColDef, GridRowId } from "@mui/x-data-grid";
+
+const columns: GridColDef[] = [
+  { field: "leader", headerName: "Maestra", width: 150 },
+  {
+    field: "assistant",
+    headerName: "Ayudante",
+    width: 150,
+  },
+  {
+    field: "agent",
+    headerName: "Agente",
+    width: 130,
+  },
+  {
+    field: "calling",
+    headerName: "Llamado",
+    width: 150,
+  },
+];
 
 export const GroupsIdentifications = () => {
   const { state, actions } = useApp();
+  const [selectedIds, setSelectedIds] = useState(new Set<GridRowId>());
   const { filters, groups } = state;
   const cards = useRef<HTMLDivElement>(null);
 
@@ -44,11 +65,32 @@ export const GroupsIdentifications = () => {
         </Button>
       </Box>
 
+      <Box marginBottom={4}>
+        <DataGrid
+          rows={data}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 5 },
+            },
+          }}
+          checkboxSelection
+          disableRowSelectionOnClick
+          rowHeight={40}
+          onRowSelectionModelChange={(ids) => {
+            const selectedIDs = new Set(ids);
+            setSelectedIds(selectedIDs);
+          }}
+        />
+      </Box>
+
       <div ref={cards}>
         <Wrapper>
-          {data.map((group) => (
-            <GropCards key={group.id} group={group} />
-          ))}
+          {data
+            .filter((group) => selectedIds.has(group.id || ""))
+            .map((group) => (
+              <GropCards key={group.id} group={group} />
+            ))}
         </Wrapper>
       </div>
     </>

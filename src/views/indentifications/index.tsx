@@ -40,7 +40,7 @@ export const Identifications = () => {
       </Button>
       <Button
         fullWidth
-        onClick={() => navigate("/identifications/childrens")}
+        onClick={() => navigate("/identifications/children")}
         variant="contained"
         color="primary"
       >
