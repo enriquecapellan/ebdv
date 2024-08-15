@@ -5,6 +5,7 @@ import {
   Button,
   Card,
   CardContent,
+  CircularProgress,
   Grid,
   List,
   Typography,
@@ -20,15 +21,18 @@ import { fetchChild } from "../services/db/children";
 import { useSpeak } from "../hooks/useSpeak";
 import { IChild } from "../types/models";
 import { DetailsItem } from "../components/detailsItem";
+import { useApp } from "../hooks/useApp/useApp";
 
 export const Unlock = () => {
   const { id } = useParams<{ id: string }>();
   const [child, setChild] = useState<IChild | null>(null);
+  const { actions } = useApp();
+
   const navigate = useNavigate();
 
   const { speak } = useSpeak();
 
-  function handleClick() {
+  function greetAgent() {
     if (child) {
       const greet = child.sex === "Niño" ? "Bienvenido" : "Bienvenida";
       const greeting = `Hola ${child.name}! ${greet}... has desbloqueado el acceso para el grupo de ${child.group.calling} del agente ${child.group.agent}!`;
@@ -36,19 +40,37 @@ export const Unlock = () => {
     }
   }
 
+  function goBack() {
+    actions.setActiveChild(null);
+    navigate("/scan");
+  }
+
   useEffect(() => {
-    async function welcome() {
+    if (child) greetAgent();
+  }, [child]);
+
+  useEffect(() => {
+    async function loadChild() {
       if (!id) return;
       const child = await fetchChild(id);
       setChild(child);
+      actions.setActiveChild(child);
     }
-    welcome();
+    loadChild();
   }, []);
 
   return (
     <div>
       {!child ? (
-        <Typography variant="h6">Cargando...</Typography>
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          height="100%"
+          width="100%"
+        >
+          <CircularProgress />
+        </Box>
       ) : (
         <Box
           display="flex"
@@ -101,14 +123,10 @@ export const Unlock = () => {
               </Grid>
             </CardContent>
           </Card>
-          <Button fullWidth variant="contained" onClick={handleClick}>
+          <Button fullWidth variant="contained" onClick={greetAgent}>
             Desbloquear
           </Button>
-          <Button
-            fullWidth
-            variant="contained"
-            onClick={() => navigate("/scan")}
-          >
+          <Button fullWidth variant="contained" onClick={goBack}>
             Volver
           </Button>
         </Box>
