@@ -8,7 +8,6 @@ import { DataGrid, GridColDef, GridRowId } from "@mui/x-data-grid";
 import { Cardnet } from "../../components/cardnet";
 import { useApp } from "../../hooks/useApp/useApp";
 import { Filters } from "../../components/filters";
-import { IChild } from "../../types/models";
 
 const columns: GridColDef[] = [
   { field: "name", headerName: "Nombre", width: 150 },
